@@ -1,0 +1,20 @@
+Planning document: Gravity Tetris
+Idea: A game of tetris that, instead of causing pieces to fall by a set increment with each timesteap, allows them to accelerate in response to a gravitational force, which will increase with level.
+Purpose: fleshing out understanding of basic Java graphics and key input, learning simple FSM design (menu, gameplay, gameover states, etc), optimization for better performance/less memory usage, generally getting good
+Implementation:
+	Menu
+		New game
+		High scores
+		Start from level (x)
+	Levels
+		Probably 1-10 as with original Tetris
+		Increase after certain score
+			change:
+				background
+				gravity coeff.
+				music(?)
+	Scoring
+		Per block placed
+		Per row erased
+		After certain score, increase level
+	Game modes (?)
