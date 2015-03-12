@@ -1,4 +1,4 @@
-
+package allthethings;
 
 public class Main {
 	

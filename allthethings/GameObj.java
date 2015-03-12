@@ -1,4 +1,4 @@
-
+package allthethings;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
