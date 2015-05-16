@@ -8,10 +8,13 @@ import java.awt.event.ActionEvent;
 
 public class GameObj extends JPanel implements ActionListener{
 	
+	private ArrayList<Block> blocks;
+
 	public GameObj() {
+		addActionListener(this);
+		blocks = new ArrayList<Block>();
 		
-
-
+		
 
 	}
 
