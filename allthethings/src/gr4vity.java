@@ -1,29 +1,34 @@
 package allthethings;
 
 import javax.swing.JFrame;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.EventQueue;
+import java.awt.BorderLayout;
 
 public class gr4vity extends JFrame {
 
-	public gr4vity() {
-
+	//placeholder values for size of board
+	private final int xdim = 768;
+	private final int ydim = 1024;
+	public gr4vity(String title) {
+		setTitle(title);
+		init();
 	}
 
 	//Set up UI and place a playing field inside this frame
 	//TODO: Add other components to do things like track score, etc.
 	private void init() {
-
-		add(new GameObj());
-
-		setResizable(false);
-		pack();
-
 		//Setup for containing frame
-		setTitle("gr4vity");
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		super.setSize(768,1024);
+		super.setResizable(false);
+		super.setLocationRelativeTo(null);
+		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		super.add(new GameObj(xdim,ydim),BorderLayout.CENTER);
+		//pack();
+
+		setVisible(true);
+
 	}
 	
 	public static void main(String[] args) {
@@ -32,8 +37,7 @@ public class gr4vity extends JFrame {
 
 			@Override
 			public void run() {
-				JFrame game = new gr4vity();
-				game.setVisible(true);
+				JFrame game = new gr4vity("gr4vity by Andrew Hild");
 			}
 		});
 		

@@ -1,16 +1,20 @@
 package allthethings;
 
+import java.awt.Color;
+
 public class Block {
 
 	private int[][] pos = new int[4][2];
 	private int[][] pos0 = new int[4][2];
 	private final double conversion = .000000001;
-	private int size = 0;
+	private int size = 0, xdim, ydim;
+	private Color color;
 	
 	//Initialize a Block object given a numerical value to specify type and a size based on desired resolution of playing field. Likely derived from image size in future release.
-	public Block(int type, int size){
+	public Block(int type, int size, int x, int y){
 		this.size = size;
-
+		xdim=x;
+		ydim=y;
 		//Type randomly selected in GameObj with higher probability for non-giga derp piece. Shape determined based on specified number.
 		switch(type){	
 			
@@ -19,6 +23,15 @@ public class Block {
 			case 1:
 			//square
 			case 2:
+			//preliminary implementation, disregard later
+			pos[0][0]=xdim/2-size/2;
+			pos[0][1]=size/2;
+			pos[1][0]=xdim/2+size/2;
+			pos[1][1]=size/2;
+			pos[2][0]=xdim/2-size/2;
+			pos[2][1]=3*size/2;
+			pos[3][0]=xdim/2+size/2;
+			pos[3][1]=3*size/2;
 			//(R)L
 			case 3:
 			//(L)L
@@ -77,6 +90,10 @@ public class Block {
 	public int[][] setPos(int[][] pos){
 		this.pos = pos;
 		return this.pos;
+	}
+
+	public Color getColor(){
+		return color;
 	}
 
 
