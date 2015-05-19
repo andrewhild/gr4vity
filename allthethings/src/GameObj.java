@@ -23,6 +23,7 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 		xdim=x;
 		ydim=y;
 		setSize(xdim,ydim);
+		setFocusable(true);
 		addKeyListener(this);
 		g=5;
 		size=20;
