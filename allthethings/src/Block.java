@@ -1,13 +1,20 @@
 package allthethings;
 
 public class Block {
+
+	private int[][] pos = new int[4][2];
+	private int[][] pos0 = new int[4][2];
+	private final double conversion = .000000001;
+	private int size = 0;
 	
-	public Block(int type){
-		switch(type)
-		{
-			/*
-			Type randomly selected in GameObj with higher probability for non-giga derp piece. Shape determined based on specified number.
-			*/
+	//Initialize a Block object given a numerical value to specify type and a size based on desired resolution of playing field. Likely derived from image size in future release.
+	public Block(int type, int size){
+		this.size = size;
+
+		//Type randomly selected in GameObj with higher probability for non-giga derp piece. Shape determined based on specified number.
+		switch(type){	
+			
+
 			//line
 			case 1:
 			//square
@@ -28,10 +35,50 @@ public class Block {
 			default:
 		}
 
-		//Update block position due to rotation
-		public void rotate(){
+	}
 
+	//Update block position due to rotation
+	public void rotate(){
+
+	}
+
+	//Move piece left one block
+	public void left(){
+		for(int q = 0;q<pos.length;q++){
+			if(pos[q][0]-size>=size)
+			pos[q][0]-=size;
 		}
 
 	}
+
+	//Move piece right one block, where dim is the width of the field in pixels
+	public void right(int dim){
+		for(int q = 0;q<pos.length;q++){
+			if(pos[q][0]+size<dim)
+			pos[q][0]+=size;
+		}
+	}
+
+	//Increments position under influence of gravity
+	public int[][] fall(double g, long dt){
+		for(int q=0;q<pos.length;q++){
+			pos[q][1]=pos0[q][1]+(int)(.5*g*Math.pow(conversion*dt,2));
+		}
+		return pos;
+
+	}
+
+	//Return matrix of sub-block positions
+	public int[][] getPos(){
+		return pos;
+	}
+
+	//Set sub-block positions manually
+	public int[][] setPos(int[][] pos){
+		this.pos = pos;
+		return this.pos;
+	}
+
+
+
 }
