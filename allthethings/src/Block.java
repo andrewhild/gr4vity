@@ -58,18 +58,22 @@ public class Block {
 	//Move piece left one block
 	public void left(){
 		for(int q = 0;q<pos.length;q++){
-			if(pos[q][0]-size>=size)
-			pos[q][0]-=size;
+			if(pos[q][0]-size<=size)
+				return;
 		}
+		for(int q = 0;q<pos.length;q++)
+			pos[q][0]-=size;
 
 	}
 
 	//Move piece right one block, where dim is the width of the field in pixels
 	public void right(int dim){
 		for(int q = 0;q<pos.length;q++){
-			if(pos[q][0]+size<dim)
-			pos[q][0]+=size;
+			if(pos[q][0]+size>=dim)
+				return;
 		}
+		for(int q = 0;q<pos.length;q++)
+			pos[q][0]+=size;
 	}
 
 	//Increments position under influence of gravity
