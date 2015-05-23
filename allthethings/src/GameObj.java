@@ -12,10 +12,10 @@ import java.awt.event.ActionListener;
 
 public class GameObj extends JPanel implements KeyListener,ActionListener{
 	
-	private boolean hit = false;
+	private boolean hit = false, paused=false, inGame=true;
 	private ArrayList<Block> blocks;
 	private Block activeBlock;
-	private int xdim, ydim, g, size;
+	private int xdim, ydim, g, size, clicks=0;
 	private long t0;
 	private Timer timer;
 
@@ -56,25 +56,67 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 		System.out.println("noot noot!");
 	}
 
+	//Pause game when P is pressed
+	private boolean pause(){
+		if(inGame){
+			if(paused){
+				timer.start();
+				paused=!paused;
+			}
+			else{
+				timer.stop();
+				paused=!paused;
+			}
+		}
+		return paused;
+	}
+
+	//Future implementation of resetting for new game
+	private void reset(){
+		System.out.println("noot noot!");
+	}
+
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-		if(code==KeyEvent.VK_UP)
-			activeBlock.rotate();
-		else if(code==KeyEvent.VK_DOWN)
-			drop();
-		else if(code==KeyEvent.VK_RIGHT)
-			activeBlock.right(xdim);
-		else if(code==KeyEvent.VK_LEFT)
-			activeBlock.left();
+		//Pause
+		if(code==KeyEvent.VK_P){
+			pause();
+			return;
+		}
+		//Reset
+		else if(code==KeyEvent.VK_R){
+			reset();
+			return;
+		}
+		//Directional input
+		if(!paused){
+			if(code==KeyEvent.VK_UP)
+				activeBlock.rotate();
+			else if(code==KeyEvent.VK_DOWN)
+				drop();
+			else if(code==KeyEvent.VK_RIGHT)
+				activeBlock.right(xdim);
+			else if(code==KeyEvent.VK_LEFT)
+				activeBlock.left();
+		}
+	
 	}
 
 	public void actionPerformed(ActionEvent e){
-		activeBlock.fall(g,System.nanoTime()-t0);
+		//count number of timer clicks since block began falling
+		clicks++;
+		activeBlock.fall(g,clicks);
 		Graphics g = getGraphics();
 		paint(g);
 	}
 
 	public void paint(Graphics g) {
+		if(contact()){
+			clicks=0;
+			activeBlock=new Block((int)(Math.random()*7)+1,size,xdim,ydim);
+
+		}
+		else{
 		int[][] pos = activeBlock.getPos();
 		super.paint(g);
 		for(int q=0;q<4;q++){
@@ -82,6 +124,7 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 			g.fillRect(pos[q][0]-size/2,pos[q][1]-size/2,size,size);
 		}
 		g.dispose();
+	}
 	}
 
 	public void keyReleased(KeyEvent e) {}

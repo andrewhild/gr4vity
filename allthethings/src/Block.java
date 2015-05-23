@@ -6,7 +6,7 @@ public class Block {
 
 	private int[][] pos = new int[4][2];
 	private int[][] pos0 = new int[4][2];
-	private final double conversion = .000000001;
+	private final double conversion = .5;
 	private int size = 0, xdim, ydim;
 	private Color color;
 	
@@ -73,7 +73,7 @@ public class Block {
 	}
 
 	//Increments position under influence of gravity
-	public int[][] fall(double g, long dt){
+	public int[][] fall(double g, int dt){
 		for(int q=0;q<pos.length;q++){
 			pos[q][1]=pos0[q][1]+(int)(.5*g*Math.pow(conversion*dt,2));
 		}
