@@ -14,7 +14,7 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 	
 	private boolean hit = false, paused=false, inGame=true;
 	private ArrayList<Block> blocks;
-	private Block activeBlock;
+	private Piece activePiece;
 	private int xdim, ydim, g, size, clicks=0;
 	private long t0;
 	private Timer timer;
@@ -33,11 +33,11 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 		timer.start();
 		t0 = System.nanoTime();
 		//generate one square tetromino
-		activeBlock=new Block(2,size,xdim,ydim);
+		activePiece=new Piece(2,size,xdim,ydim);
 	}
 
 	//Handle piece position update
-	private void step(Block b){
+	private void step(Piece p){
 
 	}
 
@@ -51,7 +51,7 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 
 	}
 
-	//Drop activeBlock in place
+	//Drop activePiece in place
 	private void drop(){
 		System.out.println("noot noot!");
 	}
@@ -91,13 +91,13 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 		//Directional input
 		if(!paused){
 			if(code==KeyEvent.VK_UP)
-				activeBlock.rotate();
+				activePiece.rotate();
 			else if(code==KeyEvent.VK_DOWN)
 				drop();
 			else if(code==KeyEvent.VK_RIGHT)
-				activeBlock.right(xdim);
+				activePiece.right(xdim);
 			else if(code==KeyEvent.VK_LEFT)
-				activeBlock.left();
+				activePiece.left();
 		}
 	
 	}
@@ -105,7 +105,7 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 	public void actionPerformed(ActionEvent e){
 		//count number of timer clicks since block began falling
 		clicks++;
-		activeBlock.fall(g,clicks);
+		activePiece.fall(g,clicks);
 		Graphics g = getGraphics();
 		paint(g);
 	}
@@ -113,18 +113,18 @@ public class GameObj extends JPanel implements KeyListener,ActionListener{
 	public void paint(Graphics g) {
 		if(contact()){
 			clicks=0;
-			activeBlock=new Block((int)(Math.random()*7)+1,size,xdim,ydim);
+			activePiece=new Piece((int)(Math.random()*7)+1,size,xdim,ydim);
 
 		}
 		else{
-		int[][] pos = activeBlock.getPos();
-		super.paint(g);
-		for(int q=0;q<4;q++){
-			g.setColor(activeBlock.getColor());
-			g.fillRect(pos[q][0]-size/2,pos[q][1]-size/2,size,size);
+			ArrayList<Block> queue = activePiece.self();
+			super.paint(g);
+			for(Block b:queue){
+				g.setColor(activePiece.getColor());
+				g.fillRect(b.getPos()[0],b.getPos()[1],size,size);
+			}
+			g.dispose();
 		}
-		g.dispose();
-	}
 	}
 
 	public void keyReleased(KeyEvent e) {}
